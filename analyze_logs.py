@@ -1,3 +1,5 @@
+#! /usr/bin/env python2.7
+
 import psycopg2
 
 
@@ -10,6 +12,7 @@ def execute_query(query):
     cur.close()
     db.close()
     return rows
+
 
 def print_result(rows, type):
     for row in rows:
