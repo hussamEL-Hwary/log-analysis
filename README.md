@@ -50,10 +50,27 @@ firstly need to install [postgresql](https://www.postgresql.org/) and [pyrhon 2.
 5. load the data with this command ```psql -d news -f newsdata.sql ```
 
 6. ### creating views
-6.1 use ``` psql -d news ``` to connect to news database
-6.2 create **views_stat** view
-``` create view views_stat as  ```
+6.1 use ``` psql -d news ``` to connect to news database.<br>
+6.2 create **views_stat view**
+```
+create view views_stat as select
+path, count(ip) as valid_view from log 
+where method = 'GET' and status = '200 OK' 
+group by path
+order by valid_view DESC 
+```
+6.3 create **top_writers view** 
+```
+create view top_writers as select author, sum(valid_view) as sum from articles, views_stat
+where views_stat.path like CONCAT('%', articles.slug)
+group by author order by sum desc;
+```
+6.4 create **log_percent view**
+```
+select time::date, round(100.1*sum(case log.status when '200 OK' then 0 else 1 end)/count(log.status),2) as percent from log
+ group by time::date;
 
+```
 7. cd to the project folder
 8. run ``` python analyze_logs.py ```
 
