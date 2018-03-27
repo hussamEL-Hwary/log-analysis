@@ -46,12 +46,12 @@ firstly need to install [postgresql](https://www.postgresql.org/) and [pyrhon 2.
 1. [download the data here](https://d17h27t6h515a5.cloudfront.net/topher/2016/August/57b5f748_newsdata/newsdata.zip)
 2. unzip file after downloading
 3. create news database ``` CREATE DATABASE news; ```
-4. cd to the folder that is contain unziped file
+4. cd to the folder that's contain unziped file
 5. load the data with this command ```psql -d news -f newsdata.sql ```
 
 6. ### creating views
-6.1 use ``` psql -d news ``` to connect to news database.<br>
-6.2 create **views_stat view**
+ 6.1 use ``` psql -d news ``` to connect to news database.<br>
+ 6.2 create **views_stat view**
 ```
 create view views_stat as select
 path, count(ip) as valid_view from log 
@@ -67,7 +67,8 @@ group by author order by sum desc;
 ```
 6.4 create **log_percent view**
 ```
-select time::date, round(100.1*sum(case log.status when '200 OK' then 0 else 1 end)/count(log.status),2) as percent from log
+select time::date, round(100.1*sum(case log.status when '200 OK' then 0 else 1 end)/count(log.status),2) 
+as percent  from log
  group by time::date;
 
 ```
