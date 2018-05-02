@@ -68,7 +68,7 @@ group by author order by sum desc;
 6.4 create **log_percent view**
 ```
 create view log_percent as select time::date, 
-round(100.1*sum(case log.status when '200 OK' then 0 else 1 end)/count(log.status),2) 
+round(100.0*sum(case log.status when '200 OK' then 0 else 1 end)/count(log.status),2) 
 as percent  from log
 group by time::date;
 
